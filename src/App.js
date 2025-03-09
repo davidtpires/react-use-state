@@ -7,6 +7,8 @@ function App() {
 
   const [endereco, setEndereco] = useState({})
 
+  const [endereços, setEnderecos] = useState([])
+
   function manipularEndereco (evento) {
     const cep = evento.target.value
 
@@ -19,12 +21,16 @@ function App() {
       fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then(resposta => resposta.json())
         .then(dados => {
-          setEndereco({
-            cep: cep,
-            rua: dados.logradouro,
-            bairro: dados.bairro,
-            cidade: dados.localidade,
-            estado: dados.uf
+
+          setEnderecos(lista => [...lista, endereco])
+          
+          setEndereco(enderoAntigo => {
+            return {
+              ...enderoAntigo,
+              bairro: dados.bairro,
+              cidade: dados.localidade,
+              estado: dados.uf
+            }
           })
         })
     }
